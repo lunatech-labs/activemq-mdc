@@ -51,7 +51,7 @@ public class ExtendedLoggingBrokerPlugin extends LoggingBrokerPlugin {
         } catch (Exception e) {
             // Swallow any other exception and deal with it afterwards from logging
             // this should not block the Activemq's default process
-            LOG.error("Something went wrong");
+            LOG.error("Something went wrong", e);
         } finally {
             // delegate the LoggingEvent
             super.send(producerExchange, messageSend);

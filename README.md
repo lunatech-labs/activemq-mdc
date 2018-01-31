@@ -4,8 +4,8 @@
 
 ## How to use this plugin?
 * Add these `activemq-mdc.jar`,`jsonevent-layout-1.7.jar`, `json-smart-2.3.jar`, `accessors-smart-1.2.jar` to `${ACTIVEME_HOME}/lib` directory
-* For convenience, the required jars are assembled in a zip archive which can copy and extract in that location.
-* The three other jars except `activemq-mdc.jar` are required to produce logging in JSON layout so that it can be fed directly to json log parsers like `logstash` and can be viewed in ElasticSearch.
+* For convenience, the required jars are assembled in a zip archive which can be copied and extracted in that location.
+* The three other jars except `activemq-mdc.jar` are required to produce logging in JSON layout so that it can be fed directly to json log parsers like `logstash` and can be viewed in ElasticSearch. If JSON layout is not necessary, then those jars can be skipped.
 
 #### Configure ActiveMQ broker to use this plugin
 * Add below bean configuration to `activemq.xml` inside `<plugins>` section.
@@ -27,7 +27,7 @@
 #### Configure file appender
 * Use this File appender configuration in `log4j.properties` under `${ActiveMQ_HOME}/conf` directory.
 * Do not forget to add this appender to `logger.rootLogger`.
-* Sample configuration is[here](src/test/resources/log4j.properties)
+* Sample configuration is [here](src/test/resources/log4j.properties)
 
 ```xml
 log4j.appender.jsonfile=org.apache.log4j.RollingFileAppender
