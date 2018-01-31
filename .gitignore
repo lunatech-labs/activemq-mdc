@@ -1,0 +1,11 @@
+target
+
+## IDE files ##
+.classpath
+.project
+.settings
+*/test-output
+.metadata
+*.iml
+.idea
+.DS_Store

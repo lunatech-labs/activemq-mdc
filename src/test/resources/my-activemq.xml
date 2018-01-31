@@ -1,0 +1,56 @@
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+    <!--
+        The <broker> element is used to configure the ActiveMQ broker.
+    -->
+    <broker xmlns="http://activemq.apache.org/schema/core" brokerName="unit-test" persistent="false"
+            dataDirectory="target/">
+
+        <!--
+            The managementContext is used to configure how ActiveMQ is exposed in
+            JMX. By default, ActiveMQ uses the MBean server that is started by
+            the JVM. For more information, see:
+
+            http://activemq.apache.org/jmx.html
+        -->
+        <managementContext>
+            <managementContext createConnector="false"/>
+        </managementContext>
+
+        <!--
+          The systemUsage controls the maximum amount of space the broker will
+          use before disabling caching and/or slowing down producers. For more information, see:
+          http://activemq.apache.org/producer-flow-control.html
+        -->
+        <systemUsage>
+            <systemUsage>
+                <memoryUsage>
+                    <memoryUsage percentOfJvmHeap="70"/>
+                </memoryUsage>
+                <storeUsage>
+                    <storeUsage limit="10 mb"/>
+                </storeUsage>
+                <tempUsage>
+                    <tempUsage limit="5 mb"/>
+                </tempUsage>
+            </systemUsage>
+        </systemUsage>
+
+        <plugins>
+            <bean xmlns="http://www.springframework.org/schema/beans"
+                  id="extendedLoggingPlugin"
+                  class="com.lunatech.activemq.plugin.ExtendedLoggingBrokerPlugin">
+                <property name="logAll" value="false"/>
+                <property name="logConnectionEvents" value="false"/>
+                <property name="logTransactionEvents" value="true"/>
+                <property name="logConsumerEvents" value="true"/>
+                <property name="logProducerEvents" value="true"/>
+            </bean>
+        </plugins>
+    </broker>
+
+</beans>
