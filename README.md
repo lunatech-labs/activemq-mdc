@@ -2,12 +2,16 @@
 * This is an external plugin which extends ActiveMQ's default LoggingBrokerPlugin and will be added to ActiveMQ's broker filter chain.
 * Using this plugin, it is now possible to add our own MDC values into the ActiveMQ logging which is not supported natively.
 
-## How to use this plugin?
-* Add these `activemq-mdc.jar`,`jsonevent-layout-1.7.jar`, `json-smart-2.3.jar`, `accessors-smart-1.2.jar` to `${ACTIVEME_HOME}/lib` directory
-* For convenience, the required jars are assembled in a zip archive which can be copied and extracted in that location.
-* The three other jars except `activemq-mdc.jar` are required to produce logging in JSON layout so that it can be fed directly to json log parsers like `logstash` and can be viewed in ElasticSearch. If JSON layout is not necessary, then those jars can be skipped.
+## Usage
+#### Build
+* Running `mvn clean package` will produce two artifacts `activemq-mdc.jar` and `activemq-mdc.zip`
 
-#### Configure ActiveMQ broker to use this plugin
+#### Add runtime dependency to `lib` directory
+* Add these `activemq-mdc.jar`,`jsonevent-layout-1.7.jar`, `json-smart-2.3.jar`, `accessors-smart-1.2.jar` to `${ACTIVEME_HOME}/lib` directory
+* For convenience, the required jars are assembled in this `activemq-mdc.zip` archive which can be extracted in that location.
+* The three other jars except `activemq-mdc.jar` are required to produce logging in JSON layout. Further the json file can be fed directly into json log parsers like `logstash` and viewed using ElasticSearch. If JSON layout is not necessary, then those jars can be skipped.
+
+#### Modify ActiveMQ broker configuration
 * Add below bean configuration to `activemq.xml` inside `<plugins>` section.
 * The properties can be modified according to our needs.
 * Sample configuration is [here](src/test/resources/my-activemq.xml) 
@@ -38,4 +42,21 @@ log4j.appender.jsonfile.maxBackupIndex=5
 log4j.appender.jsonfile.append=true
 log4j.appender.jsonfile.DatePattern=.yyyy-MM-dd
 log4j.appender.jsonfile.layout=net.logstash.log4j.JSONEventLayoutV1
+```
+
+#### What can you expect?
+You should be able to find the following additional MDC fields in your log message.
+
+```json
+  "mdc": {
+    "sent-to-DLQ": "false",
+    "redelivery-count": "0",
+    "producer-id": "ID:Sasikumars-MacBook-Pro.local-59587-1538170787867-4:1:1:1",
+    "message-body": "{\"propertyName\":\"propertyValue\"}",
+    "client-id": "ID:Sasikumars-MacBook-Pro.local-59587-1538170787867-3:1",
+    "message-id": "ID:Sasikumars-MacBook-Pro.local-59587-1538170787867-4:1:1:1:1",
+    "activemq.connector": "vm:\/\/unit-test",
+    "destination": "unit.test.q",
+    "is-redelivered": "false"
+  }
 ```
