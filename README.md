@@ -8,24 +8,24 @@
 
 #### Add runtime dependency to `lib` directory
 * Add these `activemq-mdc.jar`,`jsonevent-layout-1.7.jar`, `json-smart-2.3.jar`, `accessors-smart-1.2.jar` to `${ACTIVEME_HOME}/lib` directory
-* For convenience, the required jars are assembled in this `activemq-mdc.zip` archive which can be extracted in that location.
-* The three other jars except `activemq-mdc.jar` are required to produce logging in JSON layout. Further the json file can be fed directly into json log parsers like `logstash` and viewed using ElasticSearch. If JSON layout is not necessary, then those jars can be skipped.
+* For convenience, the required jars are assembled in this `activemq-mdc.zip` archive which can be extracted inside `/lib`.
+* The three other jars except `activemq-mdc.jar` are required to produce logging in JSON layout. Further, the JSON file can be fed directly into JSON log parsers like `logstash` and viewed using ElasticSearch. Those jars can be skipped if JSON layout is not required.
 
 #### Modify ActiveMQ broker configuration
 * Add below bean configuration to `activemq.xml` inside `<plugins>` section.
 * The properties can be modified according to our needs.
-* Sample configuration is [here](src/test/resources/my-activemq.xml) 
+* Sample configuration is [here](src/test/resources/my-activemq.xml)
 
 ```xml
-<bean xmlns="http://www.springframework.org/schema/beans"
- 				  id="extendedLoggingPlugin"
- 				  class="com.lunatech.activemq.plugin.ExtendedLoggingBrokerPlugin">
- 			  <property name="logAll" value="false"/>
- 			  <property name="logConnectionEvents" value="false"/>
- 			  <property name="logTransactionEvents" value="true"/>
- 			  <property name="logConsumerEvents" value="true"/>
- 			  <property name="logProducerEvents" value="true"/>
- 		  </bean>
+        <bean xmlns="http://www.springframework.org/schema/beans"
+                   id="extendedLoggingPlugin"
+                   class="com.lunatech.activemq.plugin.ExtendedLoggingBrokerPlugin">
+               <property name="logAll" value="false"/>
+               <property name="logConnectionEvents" value="false"/>
+               <property name="logTransactionEvents" value="true"/>
+               <property name="logConsumerEvents" value="true"/>
+               <property name="logProducerEvents" value="true"/>
+         </bean>
 ```
 
 #### Configure file appender
